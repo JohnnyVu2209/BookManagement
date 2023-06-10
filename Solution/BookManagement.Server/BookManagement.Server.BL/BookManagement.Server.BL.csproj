@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BookManagement.DL\BookManagement.Server.DL.csproj" />
-    <ProjectReference Include="..\Models\BookManagement.Shared.Models.csproj" />
+    <ProjectReference Include="..\..\BookManagement.Shared\BookManagement.Shared.Models\BookManagement.Shared.Models.csproj" />
+    <ProjectReference Include="..\BookManagement.Server.DL\BookManagement.Server.DL.csproj" />
   </ItemGroup>
 
 </Project>
