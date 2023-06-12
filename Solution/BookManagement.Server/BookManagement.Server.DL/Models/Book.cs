@@ -1,17 +1,17 @@
-﻿
-
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using BookManagement.Server.DL.ValueObjects;
 
 namespace BookManagement.Server.DL.Models
 {
     public class Book: BaseEntity
     {
-        public string? Name { get; set; }
-        public string? Description { get; set; }
         public string? Title { get; set; }
+        public string? Description { get; set; }
         public DateTime PublishedDate { get; set; }
-        public int AuthorId { get; set; }
-        public User Author { get; set; }
+        public Author Author { get; set; }
+        public int Status { get; set; } 
+        public DateTime BorrowedDate { get; set; }
+        public DateTime ReturnedDate { get; set; }
+        public List<BorrowingSlip> BorrowingSlips { get; set; }
 
     }
 }

@@ -1,44 +1,43 @@
 ﻿
 using BookManagement.Server.DL.Models;
+using BookManagement.Server.DL.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace BookManagement.Server.DL
 {
-    public class BookShopDbContext:DbContext
-    {
-        public BookShopDbContext(DbContextOptions<BookShopDbContext> options):base(options) {
-        
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Author)
-                .WithMany(u => u.Books)
-                .HasForeignKey(b => b.AuthorId);
+	public class BookShopDbContext : DbContext
+	{
+		public BookShopDbContext(DbContextOptions<BookShopDbContext> options) : base(options)
+		{
 
-            base.OnModelCreating(modelBuilder);
+		}
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Book>()
+			.OwnsOne(b => b.Author);
 
-            var author = new User { Id = 1, FirstName = "John", LastName = "Doe" };
+			modelBuilder.Entity<User>()
+				.HasOne(u => u.Role)
+				.WithMany(r => r.Users)
+				.HasForeignKey(u => u.RoleId);
 
-            for (int i = 1; i <= 10; i++)
-            {
-                var book = new Book
-                {
-                    Id = i,
-                    Name = $"Book {i}",
-                    Description = $"Description {i}",
-                    Title = $"Title {i}",
-                    PublishedDate = DateTime.Now,
-                    AuthorId = author.Id  // Gán giá trị cho khóa ngoại AuthorId
-                };
+			modelBuilder.Entity<BorrowingSlip>()
+				.HasOne(bs => bs.Borrower)
+				.WithMany(u => u.BorrowingSlips)
+				.HasForeignKey(bs => bs.BorrowerId);
 
-                modelBuilder.Entity<Book>().HasData(book);
-            }
+			modelBuilder.Entity<BorrowingSlip>()
+				.HasOne(bs => bs.BorrowedBook)
+				.WithMany(b => b.BorrowingSlips)
+				.HasForeignKey(bs => bs.BorrowedBookId);
+			base.OnModelCreating(modelBuilder);
+		}
 
-            modelBuilder.Entity<User>().HasData(author);  // Thêm seed data cho User
-        }
-
-        public DbSet<Book> Books { get; set;}
-        public DbSet<User> Users { get;set;}
-    }
+		public DbSet<Book> Books { get; set; }
+		public DbSet<User> Users { get; set; }
+		public DbSet<BorrowingSlip> BorrowingSlips { get; set; }
+		public DbSet<Role> Roles { get; set; }
+		
+	}
 }
