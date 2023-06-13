@@ -1,12 +1,13 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
+    <Sidebar IsSidebarActive="IsSidebarActive"/>
     <main>
-        <div class="top-row px-4">
+        <div class="top-row px-4" style="justify-content: space-between">
+            <button type="button" @onclick="ToggleSidebar" id="sidebarCollapse" class="btn btn-primary">
+                    <i class="oi oi-list"></i>
+                    <span class="sr-only">Toggle Menu</span>
+             </button>
             <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
         </div>
 
@@ -15,3 +16,11 @@
         </article>
     </main>
 </div>
+
+@code {
+    public bool IsSidebarActive { get; set; } = true;
+    private void ToggleSidebar()
+    {
+        IsSidebarActive = !IsSidebarActive;
+    }
+}

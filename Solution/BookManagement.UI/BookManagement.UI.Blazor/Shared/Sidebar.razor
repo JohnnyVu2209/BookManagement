@@ -1,0 +1,29 @@
+﻿<nav id="sidebar" class="@SidebarCssClass">
+				<div class="p-4 pt-5">
+		  		<a href="#" class="img logo rounded-circle mb-5" style="background-image: url(images/logo.jpg);"></a>
+	        <ul class="list-unstyled components mb-5">
+			  @foreach (var item in Constants.SidebarItems)
+				{
+					<li class="@((selectedLink.Equals(item.Link)) ? "active" : "")">
+						<a href="@item.Link">@item.Title</a>
+					</li>
+				}
+	        </ul>
+
+	      </div>
+</nav>
+@code {
+    [Parameter]
+    public bool IsSidebarActive { get; set; }
+
+    private string? SidebarCssClass => !IsSidebarActive ? "active" : null;
+
+	string selectedLink = "/";
+
+	private void SetSelectedLink(string link)
+	{
+		selectedLink = link;
+	}
+
+    
+}
