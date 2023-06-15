@@ -9,5 +9,7 @@ namespace BookManagement.Server.BL.Services.Interfaces
         Task<Book> AddBook(AddBookDto bookDto);
         Task<List<Book>> GetAllBooks();
         Task<List<Book>> GetBooks(PaginationParameters paginationParameters);
+        Task<Book> GetBook(int id);
+        Task<Book> EditBook(int id, EditBookDto editBook);
     }
 }

@@ -1,0 +1,105 @@
+﻿@inherits DetailEditBookBase;
+<Modal IsVisible="IsVisible" Title="@((IsEditMode ? "Update book" : "Book detail"))" CancleAction="OnClose">
+	 <ChildContent>
+		@if (IsEditMode)
+		{
+            <EditForm id="EditBook" Model="@EditBookDto" OnValidSubmit="HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <div class="form-group row">
+                    <label for="title" class="col-sm-3 col-form-label">
+                        Title
+                    </label>
+                    <div class="col-sm-7">
+                        <InputText id="title" class="form-control" placeholder="Title" @bind-Value="EditBookDto.Title" />
+                        <ValidationMessage For="@(() => EditBookDto.Title)" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Author_FistName" class="col-sm-3 col-form-label">
+                        First Name
+                    </label>
+                    <div class="col-sm-7">
+                        <InputText id="Author_FirstName" class="form-control" placeholder="Auhtor First Name" @bind-Value="EditBookDto.Author_FirstName" />
+                        <ValidationMessage For="@(() => EditBookDto.Author_FirstName)" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Author_LastName" class="col-sm-3 col-form-label">
+                        Last Name
+                    </label>
+                    <div class="col-sm-7">
+                        <InputText id="Author_LastName" class="form-control" placeholder="Auhtor Last Name" @bind-Value="EditBookDto.Author_LastName" />
+                        <ValidationMessage For="@(() => EditBookDto.Author_LastName)" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="PublishedDate" class="col-sm-3 col-form-label">
+                        Published Date
+                    </label>
+                    <div class="col-sm-7">
+                        <InputDate id="PublishedDate" class="form-control" placeholder="Published Date" @bind-Value="EditBookDto.PublishedDate" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Description" class="col-sm-3 col-form-label">
+                        Description
+                    </label>
+                    <div class="col-sm-7">
+                        <InputTextArea id="Description" class="form-control" placeholder="Published Date" @bind-Value="EditBookDto.Description" />
+                    </div>
+                </div>
+            </EditForm>
+
+        } else
+        {
+            <div class="form-group row">
+                <label for="Title" class="col-sm-3 col-form-label">
+                    Title
+                </label>
+                <div class="col-sm-7">
+                    @BookDto.Title
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Author" class="col-sm-3 col-form-label">
+                    Author Name
+                </label>
+                <div class="col-sm-7">
+                    @BookDto.Author
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="PublishedDate" class="col-sm-3 col-form-label">
+                    Published Date
+                </label>
+                <div class="col-sm-7">
+                    @BookDto.PublishedDate.Date
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Description" class="col-sm-3 col-form-label">
+                    Description
+                </label>
+                <div class="col-sm-7">
+                    @BookDto.Description
+                </div>
+            </div>
+        }
+        @if (IsEditMode)
+        {
+            <button type="submit" form="EditBook" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" @onclick="ChangeEditMode">Cancle</button>
+        } else{
+            <button type="button" class="btn btn-primary" @onclick="ChangeEditMode">Edit</button>
+        }
+    </ChildContent>
+</Modal>
+
+@code {
+    private bool IsEditMode = false;
+    private void ChangeEditMode()
+    {
+        IsEditMode = !IsEditMode;
+    }
+}

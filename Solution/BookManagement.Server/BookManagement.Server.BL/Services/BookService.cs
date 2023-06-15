@@ -35,5 +35,20 @@ namespace BookManagement.Server.BL.Services
         {
             return (List<Book>)await repository.GetItems(paginationParameters);
         }
+
+        public Task<Book> GetBook(int id)
+        {
+            return Task.FromResult(repository.Get(id));
+        }
+
+        public Task<Book> EditBook(int id, EditBookDto bookDto)
+        {
+            var currentBook = repository.Get(id);
+            var edBook = mapper.Map<Book>(bookDto);
+            mapper.Map(edBook, currentBook);
+            repository.Update(currentBook);
+            repository.SaveChanges();
+            return Task.FromResult(currentBook);
+        }
     }
 }

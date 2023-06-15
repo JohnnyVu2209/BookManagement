@@ -47,5 +47,41 @@ namespace BookManagement.UI.Blazor.Services
                 throw;
             }
         }
+
+        public async Task<BookDto> GetBook(int id)
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<BookDto>($"api/Book/GetBook/{id}");
+                return response;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<BookDto> UpdateBook(int id, EditBookDto editBook)
+        {
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync<EditBookDto>($"api/Book/EditBook/{id}", editBook);
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<BookDto>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status:{response.StatusCode} - Message:{message}");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

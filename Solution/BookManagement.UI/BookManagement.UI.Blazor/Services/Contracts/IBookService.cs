@@ -6,5 +6,7 @@ namespace BookManagement.UI.Blazor.Services.Contracts
     {
         Task<IEnumerable<BookDto>> GetAllBooks();
         Task<BookDto> AddBook(AddBookDto book);
+        Task<BookDto> UpdateBook(int id,EditBookDto editBook);
+        Task<BookDto> GetBook(int id);
     }
 }

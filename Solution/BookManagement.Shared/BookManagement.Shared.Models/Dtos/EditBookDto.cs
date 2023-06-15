@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace BookManagement.Shared.Models.Dtos
 {
-    public class AddBookDto
+    public class EditBookDto
     {
         [MinLength(3, ErrorMessage = "Title must be at least 3 characters.")]
         [MaxLength(50, ErrorMessage = "Title cannot exceed 50 characters.")]

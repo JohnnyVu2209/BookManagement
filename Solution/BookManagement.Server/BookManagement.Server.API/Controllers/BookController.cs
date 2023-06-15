@@ -63,6 +63,23 @@ namespace BookManagement.Server.API.Controllers
             }
         }
 
+        [HttpGet("GetBook/{id}")]
+        public async Task<ActionResult<BookDto>> GetBook(int id)
+        {
+            try
+            {
+                var book = await bookService.GetBook(id);
+                if(book == null)
+                    return NotFound();
+                
+                return Ok(_mapper.Map<BookDto>(book));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error founding data from database");
+            }
+        }
         [HttpPost("AddBook")]
         public async Task<ActionResult<BookDto>> AddBook([FromBody]AddBookDto bookDto)
         {
@@ -76,7 +93,22 @@ namespace BookManagement.Server.API.Controllers
                 Console.WriteLine(e.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error creating data to database");
             }
-        } 
+        }
+        [HttpPut("EditBook/{id}")]
+        public async Task<ActionResult<BookDto>> EditBook(int id, [FromBody]EditBookDto editBook)
+        {
+            try
+            {
+                var book = await bookService.EditBook(id, editBook);
+                return Ok(_mapper.Map<BookDto>(book));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error editing data to database");
+            }
+        }
+
 
 
     }
