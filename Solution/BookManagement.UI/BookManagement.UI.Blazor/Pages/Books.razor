@@ -3,11 +3,12 @@
 @inherits BooksBase
 
 @if(Books == null){
-	<h3>Loading...</h3>
+    <div class="spinner"></div>
 } else{
     @if (IsAddFormVisible)
     {
-        <AddBookForm IsVisible="IsAddFormVisible" OnClose="CloseAddForm"/>
+        <AddBookForm IsVisible="IsAddFormVisible" OnBookAdded="HandleBookAdded" OnClose="CloseAddForm" />
+            
     }
 	<h3 class="mb-5">
         Books
@@ -62,5 +63,9 @@
     private void CloseAddForm()
     {
         IsAddFormVisible = false;
+    }
+    private async Task HandleBookAdded()
+    {
+        await LoadData(); // Tải lại dữ liệu trong MainPage
     }
 }

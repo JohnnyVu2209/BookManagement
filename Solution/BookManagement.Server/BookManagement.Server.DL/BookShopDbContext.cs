@@ -38,6 +38,37 @@ namespace BookManagement.Server.DL
 		public DbSet<User> Users { get; set; }
 		public DbSet<BorrowingSlip> BorrowingSlips { get; set; }
 		public DbSet<Role> Roles { get; set; }
-		
-	}
+
+        public override int SaveChanges()
+        {
+            UpdateTimestamps();
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateTimestamps();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        private void UpdateTimestamps()
+        {
+            var entities = ChangeTracker.Entries<BaseEntity>();
+
+            foreach (var entry in entities)
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTime.Now;
+					entry.Entity.UpdatedAt = DateTime.Now;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTime.Now;
+                }
+            }
+        }
+
+    }
 }

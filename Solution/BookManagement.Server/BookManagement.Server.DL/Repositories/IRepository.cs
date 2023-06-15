@@ -1,4 +1,5 @@
 ﻿
+using BookManagement.Shared.Models.Dtos;
 using System.Linq.Expressions;
 
 namespace BookManagement.Server.DL.Repositories
@@ -12,5 +13,6 @@ namespace BookManagement.Server.DL.Repositories
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
         IQueryable<T> Include<TProperty>(Expression<Func<T, TProperty>> navigationPropertyPath);
         void SaveChanges();
+        Task<IEnumerable<T>> GetItems(PaginationParameters parameters);
     }
 }

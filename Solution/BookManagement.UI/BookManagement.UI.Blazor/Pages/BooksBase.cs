@@ -13,6 +13,10 @@ namespace BookManagement.UI.Blazor.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await LoadData();
+        }
+        public async Task LoadData()
+        {
             Books = await BookService.GetAllBooks();
         }
 

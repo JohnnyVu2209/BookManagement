@@ -18,8 +18,8 @@ namespace BookManagement.Server.API.Controllers
             this.bookService = bookService;
             _mapper = mapper;
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookDto>>> Get()
+        [HttpGet("GetBooks")]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
 
             try
@@ -40,7 +40,44 @@ namespace BookManagement.Server.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from database");
             }
         }
+        [HttpGet("Paging")]
+        public async Task<ActionResult<IEnumerable<BookDto>>> Paging([FromQuery] PaginationParameters paginationParameters)
+        {
 
-        
+            try
+            {
+                var books = await bookService.GetBooks(paginationParameters);
+                if (books == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(_mapper.Map<List<BookDto>>(books));
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from database");
+            }
+        }
+
+        [HttpPost("AddBook")]
+        public async Task<ActionResult<BookDto>> AddBook([FromBody]AddBookDto bookDto)
+        {
+            try
+            {
+                var book = await bookService.AddBook(bookDto);
+                return Ok(_mapper.Map<BookDto>(book));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error creating data to database");
+            }
+        } 
+
+
     }
 }

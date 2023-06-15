@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\BookManagement.Shared\BookManagement.Shared.Models\BookManagement.Shared.Models.csproj" />
+  </ItemGroup>
+
 </Project>

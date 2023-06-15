@@ -1,39 +1,63 @@
-﻿
-<Modal IsVisible="IsVisible" Title="Add new book" SaveAction="SaveData" CancleAction="OnClose">
+﻿@using BookManagement.Shared.Models.Dtos;
+@inherits AddBookFormBase;
+<Modal IsVisible="IsVisible" Title="Add new book" CancleAction="OnClose">
 	 <ChildContent>
         <!-- Nội dung dynamic trong modal -->
         <p>Đây là nội dung trong modal.</p>
-        <form>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Title</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">Error</div>
+        <EditForm Model="@BookDto" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="form-group row">
+                <label for="title" class="col-sm-3 col-form-label">
+                    Title
+                </label>
+                <div class="col-sm-7">
+                    <InputText id="title" class="form-control" placeholder="Title" @bind-Value="BookDto.Title" />
+                    <ValidationMessage For="@(() => BookDto.Title)" />
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Author</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">Error</div>
+            <div class="form-group row">
+                <label for="Author_FistName" class="col-sm-3 col-form-label">
+                    First Name
+                </label>
+                <div class="col-sm-7">
+                    <InputText id="Author_FirstName" class="form-control" placeholder="Auhtor First Name" @bind-Value="BookDto.Author_FirstName" />
+                    <ValidationMessage For="@(() => BookDto.Author_FirstName)" />
+                </div>
             </div>
-        </form>
+            <div class="form-group row">
+                <label for="Author_LastName" class="col-sm-3 col-form-label">
+                    Last Name
+                </label>
+                <div class="col-sm-7">
+                    <InputText id="Author_LastName" class="form-control" placeholder="Auhtor Last Name" @bind-Value="BookDto.Author_LastName" />
+                    <ValidationMessage For="@(() => BookDto.Author_LastName)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="PublishedDate" class="col-sm-3 col-form-label">
+                    Published Date
+                </label>
+                <div class="col-sm-7">
+                    <InputDate id="PublishedDate" class="form-control" placeholder="Published Date" @bind-Value="BookDto.PublishedDate" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Description" class="col-sm-3 col-form-label">
+                    Description
+                </label>
+                <div class="col-sm-7">
+                    <InputTextArea id="Description" class="form-control" placeholder="Published Date" @bind-Value="BookDto.Description" />
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </EditForm>
     </ChildContent>
     
 </Modal>
 
 @code {
-    [Parameter]
-    public bool IsVisible { get; set; }
-    [Parameter]
-    public EventCallback OnClose { get; set; }
 
-    private void CloseModal()
-    {
-        IsVisible = false;
-        OnClose.InvokeAsync();
-    }
 
-    private void SaveData()
-    {
-        // Xử lý lưu dữ liệu
-        CloseModal();
-    }
+    
 }
